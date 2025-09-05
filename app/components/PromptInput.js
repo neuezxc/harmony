@@ -38,7 +38,7 @@ export default function PromptInput({
           onChange={(e) => setPositivePrompt(e.target.value)}
           placeholder="Describe what you want to see in your image..."
           rows={4}
-          className="w-full px-3 py-2 bg-surface border border-border rounded-md focus:border-primary focus:outline-none transition-colors duration-200 resize-y min-h-[120px]"
+          className="w-full px-3 py-2 bg-surface border border-border rounded-md focus:border-primary focus:outline-none transition-colors duration-200 resize-y min-h-[120px] h-[300px]"
         />
       </div>
 

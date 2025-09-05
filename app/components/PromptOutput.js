@@ -48,9 +48,7 @@ export default function PromptOutput({ optimizedPrompt, optimizedNegative, chang
             <pre className="px-3 py-2 bg-surface border border-border rounded-md font-mono text-sm overflow-x-auto whitespace-pre-wrap transition-colors duration-200">
               {optimizedPrompt}
             </pre>
-            <div className="absolute top-2 right-2 opacity-50 text-xs text-secondary">
-              Enhanced for better AI generation
-            </div>
+            
           </div>
         </div>
       )}
@@ -73,9 +71,7 @@ export default function PromptOutput({ optimizedPrompt, optimizedNegative, chang
             <pre className="px-3 py-2 bg-surface border border-border rounded-md font-mono text-sm overflow-x-auto whitespace-pre-wrap transition-colors duration-200">
               {optimizedNegative}
             </pre>
-            <div className="absolute top-2 right-2 opacity-50 text-xs text-secondary">
-              Refined to avoid unwanted elements
-            </div>
+            
           </div>
         </div>
       )}

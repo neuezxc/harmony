@@ -1,32 +1,34 @@
 export default function SettingsPanel({
-  darkMode,
-  setDarkMode,
   defaultModel,
   setDefaultModel,
   apiKey,
   setApiKey,
   isOpen,
-  setIsOpen
+  setIsOpen,
 }) {
   const models = [
-    {id: "deepseek/deepseek-chat-v3.1:free", name: "DeepSeek: DeepSeek V3.1 (free)", description: "deep"},
-    { id: 'z-ai/glm-4.5-air:free', name: 'GLM-4.5 Air (Free)', description: 'Fast and reliable' },
-    { id: 'anthropic/claude-3-haiku', name: 'Claude 3 Haiku', description: 'Balanced performance' },
-    { id: 'openai/gpt-4o-mini', name: 'GPT-4o Mini', description: 'Compact and efficient' },
-    { id: 'meta-llama/llama-3.1-8b-instruct', name: 'Llama 3.1 8B', description: 'Open source option' }
-  ]
+    {
+      id: "deepseek/deepseek-chat-v3.1:free",
+      name: "DeepSeek: DeepSeek V3.1 (free)",
+    },
+    {
+      id: "z-ai/glm-4.5-air:free",
+      name: "GLM-4.5 Air (Free)",
+    },
+  ];
 
   return (
     <div className="space-y-6">
       {/* API Key Input */}
       <div className="bg-gradient-to-br from-surface to-surface-hover border border-border rounded-xl p-5 hover:shadow-lg transition-all duration-300">
         <div className="flex items-center space-x-3 mb-4">
-          
           <div>
             <label className="block text-sm font-semibold text-foreground">
               OpenRouter API Key
             </label>
-            <p className="text-xs text-secondary">Required for prompt optimization</p>
+            <p className="text-xs text-secondary">
+              Required for prompt optimization
+            </p>
           </div>
         </div>
         <div className="relative">
@@ -38,21 +40,31 @@ export default function SettingsPanel({
             className="w-full px-4 py-3 bg-surface/50 border border-border/50 rounded-lg focus:border-primary focus:outline-none transition-all duration-200 font-mono text-sm"
           />
           <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
-            <div className={`w-3 h-3 rounded-full transition-colors ${apiKey && apiKey.startsWith('sk-or-v1-') ? 'bg-accent' : 'bg-secondary'}`}></div>
+            <div
+              className={`w-3 h-3 rounded-full transition-colors ${
+                apiKey && apiKey.startsWith("sk-or-v1-")
+                  ? "bg-accent"
+                  : "bg-secondary"
+              }`}
+            ></div>
           </div>
         </div>
         <p className="text-xs text-secondary mt-2">
-          Get your API key from <a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">OpenRouter</a>
+          Get your API key from{" "}
+          <a
+            href="https://openrouter.ai/keys"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline font-medium"
+          >
+            OpenRouter
+          </a>
         </p>
       </div>
-
-      {/* Dark Mode Toggle */}
-      
 
       {/* Model Selection */}
       <div className="bg-gradient-to-br from-surface to-surface-hover border border-border rounded-xl p-5 hover:shadow-lg transition-all duration-300">
         <div className="flex items-center space-x-3 mb-4">
-          
           <div>
             <label className="block text-sm font-semibold text-foreground">
               Default Model
@@ -63,11 +75,15 @@ export default function SettingsPanel({
         <select
           value={defaultModel}
           onChange={(e) => setDefaultModel(e.target.value)}
-          className="w-full px-4 py-3 bg-surface/50 border border-border/50 rounded-lg focus:border-primary focus:outline-none transition-all duration-200"
+          className="w-full px-4 py-3 bg-surface/50 border border-border/50 rounded-lg focus:border-primary focus:outline-none transition-all duration-200 bg-black/20 cursor-pointer"
         >
           {models.map((model) => (
-            <option key={model.id} value={model.id} className="bg-surface">
-              {model.name} - {model.description}
+            <option
+              key={model.id}
+              value={model.id}
+              className=" bg-black cursor-pointer"
+            >
+              {model.name}
             </option>
           ))}
         </select>
@@ -82,11 +98,12 @@ export default function SettingsPanel({
           <div>
             <p className="text-sm font-medium text-foreground">Pro Tip</p>
             <p className="text-xs text-secondary">
-              Different models may give slightly different optimization results. Experiment to find your favorite!
+              Different models may give slightly different optimization results.
+              Experiment to find your favorite!
             </p>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

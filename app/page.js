@@ -24,8 +24,7 @@ export default function Home() {
   const [showHistory, setShowHistory] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [activeTab, setActiveTab] = useState('results')
-  const [darkMode, setDarkMode] = useState(false)
-  const [defaultModel, setDefaultModel] = useState('z-ai/glm-4.5-air:free')
+  const [defaultModel, setDefaultModel] = useState('deepseek/deepseek-chat-v3.1:free')
   const [searchTerm, setSearchTerm] = useState('')
 
   // Load from localStorage on mount
@@ -36,7 +35,6 @@ export default function Home() {
     const savedCharacterName = localStorage.getItem('characterName')
     const savedApiKey = localStorage.getItem('apiKey')
     const savedHistory = localStorage.getItem('promptHistory')
-    const savedDarkMode = localStorage.getItem('darkMode')
     const savedModel = localStorage.getItem('defaultModel')
 
     if (savedPositive) setPositivePrompt(savedPositive)
@@ -45,7 +43,6 @@ export default function Home() {
     if (savedCharacterName) setCharacterName(savedCharacterName)
     if (savedApiKey) setApiKey(savedApiKey)
     if (savedHistory) setHistory(JSON.parse(savedHistory))
-    if (savedDarkMode) setDarkMode(JSON.parse(savedDarkMode))
     if (savedModel) setDefaultModel(savedModel)
   }, [])
 
@@ -74,10 +71,7 @@ export default function Home() {
     localStorage.setItem('promptHistory', JSON.stringify(history))
   }, [history])
 
-  useEffect(() => {
-    localStorage.setItem('darkMode', JSON.stringify(darkMode))
-    document.documentElement.classList.toggle('dark', darkMode)
-  }, [darkMode])
+
 
   useEffect(() => {
     localStorage.setItem('defaultModel', defaultModel)
@@ -282,7 +276,7 @@ Please harmonize and optimize this prompt for better AI image generation results
   })
 
   return (
-    <div className={`min-h-screen bg-background ${darkMode ? 'dark' : ''}`}>
+    <div className="min-h-screen bg-background dark">
       {/* Top Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-border">
         <div className="max-w-6xl mx-auto px-4 py-3">
@@ -425,8 +419,6 @@ Please harmonize and optimize this prompt for better AI image generation results
             {/* Modal Content */}
             <div className="p-8 overflow-y-auto max-h-[calc(85vh-160px)] scrollbar-hide">
               <SettingsPanel
-                darkMode={darkMode}
-                setDarkMode={setDarkMode}
                 defaultModel={defaultModel}
                 setDefaultModel={setDefaultModel}
                 apiKey={apiKey}
