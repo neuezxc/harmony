@@ -20,11 +20,11 @@ export default function HistorySidebar({ history, onLoadEntry, isOpen, setIsOpen
       {history.length === 0 ? (
         <div className="text-center py-16">
           <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-            <span className="text-2xl">📚</span>
+            <span className="text-2xl">🔍</span>
           </div>
-          <h3 className="text-lg font-semibold text-foreground mb-2">No history yet</h3>
+          <h3 className="text-lg font-semibold text-foreground mb-2">No results found</h3>
           <p className="text-secondary text-sm max-w-sm mx-auto">
-            Your harmonized prompts will appear here. Start by creating your first optimized prompt!
+            Try adjusting your search terms or clear the search to see all prompts.
           </p>
         </div>
       ) : (

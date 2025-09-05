@@ -7,8 +7,6 @@ export default function PromptInput({
   setLoraText,
   characterName,
   setCharacterName,
-  apiKey,
-  setApiKey,
   onHarmonize,
   onClear,
   isLoading,
@@ -16,20 +14,6 @@ export default function PromptInput({
 }) {
   return (
     <div className="space-y-6">
-      {/* API Key */}
-      <div>
-        <label className="block text-sm font-medium text-foreground mb-2">
-          OpenRouter API Key
-        </label>
-        <input
-          type="password"
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          placeholder="sk-or-v1-..."
-          className="w-full px-3 py-2 bg-surface border border-border rounded-md focus:border-primary focus:outline-none transition-colors duration-200"
-        />
-      </div>
-
       {/* Character/Scene Name */}
       <div>
         <label className="block text-sm font-medium text-foreground mb-2">

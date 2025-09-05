@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Prompt Harmonizer",
+  title: "Harmony",
   description: "Harmonize your AI prompts with LoRA optimization",
 };
 
