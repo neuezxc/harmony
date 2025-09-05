@@ -5,6 +5,8 @@ export default function PromptInput({
   setNegativePrompt,
   loraText,
   setLoraText,
+  characterName,
+  setCharacterName,
   apiKey,
   setApiKey,
   onHarmonize,
@@ -14,8 +16,6 @@ export default function PromptInput({
 }) {
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-semibold text-gradient mb-4">Harmonize Your Prompt</h2>
-
       {/* API Key */}
       <div>
         <label className="text-sm font-medium mb-2">
@@ -30,6 +30,23 @@ export default function PromptInput({
         />
       </div>
 
+      {/* Character/Scene Name */}
+      <div>
+        <label className="text-sm font-medium mb-2">
+          Character Name (Optional)
+        </label>
+        <input
+          type="text"
+          value={characterName}
+          onChange={(e) => setCharacterName(e.target.value)}
+          placeholder=""
+          className="w-full p-3 rounded-lg bg-surface border border-border focus:border-primary focus:outline-none transition-colors duration-200"
+        />
+        <p className="text-xs text-secondary mt-1">
+          Name your character or scene to organize and find prompts later
+        </p>
+      </div>
+
       {/* Positive Prompt */}
       <div>
         <label className="text-sm font-medium mb-2">
@@ -40,35 +57,35 @@ export default function PromptInput({
           onChange={(e) => setPositivePrompt(e.target.value)}
           placeholder="Describe what you want to see in your image... e.g., 'A beautiful sunset over mountains with vibrant colors'"
           rows={4}
-          className="w-full p-3 rounded-lg bg-surface border border-border focus:border-primary focus:outline-none transition-colors duration-200 resize-none"
+          className="w-full p-3 rounded-lg bg-surface border border-border focus:border-primary focus:outline-none transition-colors duration-200 resize-y min-h-[100px] h-[300px]"
         />
       </div>
 
       {/* Negative Prompt */}
       <div>
         <label className="text-sm font-medium mb-2">
-          Negative Prompt (Optional)
+          Negative Prompt
         </label>
         <textarea
           value={negativePrompt}
           onChange={(e) => setNegativePrompt(e.target.value)}
           placeholder="Describe what you DON'T want to see... e.g., 'blurry, low quality, distorted'"
           rows={3}
-          className="w-full p-3 rounded-lg bg-surface border border-border focus:border-primary focus:outline-none transition-colors duration-200 resize-none"
+          className="w-full p-3 rounded-lg bg-surface border border-border focus:border-primary focus:outline-none transition-colors duration-200 resize-y min-h-[80px]"
         />
       </div>
 
       {/* LoRA Triggers */}
       <div>
         <label className="text-sm font-medium mb-2">
-          Describe Your LoRA (Optional)
+          Describe Your LoRA (Important)
         </label>
         <textarea
           value={loraText}
           onChange={(e) => setLoraText(e.target.value)}
           placeholder="Describe your LoRA and include trigger words."
           rows={4}
-          className="w-full p-3 rounded-lg bg-surface border border-border focus:border-primary focus:outline-none transition-colors duration-200 resize-none"
+          className="w-full p-3 rounded-lg bg-surface border border-border focus:border-primary focus:outline-none transition-colors duration-200 resize-y min-h-[100px]"
         />
       </div>
 

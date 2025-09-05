@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import PromptInput from './components/PromptInput'
 import PromptOutput from './components/PromptOutput'
+import PromptDiff from './components/PromptDiff'
 import HistorySidebar from './components/HistorySidebar'
 import SettingsPanel from './components/SettingsPanel'
 
@@ -10,10 +11,13 @@ export default function Home() {
   const [positivePrompt, setPositivePrompt] = useState('')
   const [negativePrompt, setNegativePrompt] = useState('')
   const [loraText, setLoraText] = useState('')
+  const [characterName, setCharacterName] = useState('')
   const [apiKey, setApiKey] = useState('')
   const [optimizedPrompt, setOptimizedPrompt] = useState('')
   const [optimizedNegative, setOptimizedNegative] = useState('')
   const [changesSummary, setChangesSummary] = useState('')
+  const [originalPositivePrompt, setOriginalPositivePrompt] = useState('')
+  const [originalNegativePrompt, setOriginalNegativePrompt] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [history, setHistory] = useState([])
@@ -27,6 +31,7 @@ export default function Home() {
     const savedPositive = localStorage.getItem('positivePrompt')
     const savedNegative = localStorage.getItem('negativePrompt')
     const savedLora = localStorage.getItem('loraText')
+    const savedCharacterName = localStorage.getItem('characterName')
     const savedApiKey = localStorage.getItem('apiKey')
     const savedHistory = localStorage.getItem('promptHistory')
     const savedDarkMode = localStorage.getItem('darkMode')
@@ -35,6 +40,7 @@ export default function Home() {
     if (savedPositive) setPositivePrompt(savedPositive)
     if (savedNegative) setNegativePrompt(savedNegative)
     if (savedLora) setLoraText(savedLora)
+    if (savedCharacterName) setCharacterName(savedCharacterName)
     if (savedApiKey) setApiKey(savedApiKey)
     if (savedHistory) setHistory(JSON.parse(savedHistory))
     if (savedDarkMode) setDarkMode(JSON.parse(savedDarkMode))
@@ -53,6 +59,10 @@ export default function Home() {
   useEffect(() => {
     localStorage.setItem('loraText', loraText)
   }, [loraText])
+
+  useEffect(() => {
+    localStorage.setItem('characterName', characterName)
+  }, [characterName])
 
   useEffect(() => {
     localStorage.setItem('apiKey', apiKey)
@@ -86,6 +96,10 @@ export default function Home() {
       setError('Please enter a positive prompt')
       return
     }
+
+    // Store original prompts for diff display
+    setOriginalPositivePrompt(positivePrompt)
+    setOriginalNegativePrompt(negativePrompt)
 
     setIsLoading(true)
     setError('')
@@ -197,6 +211,7 @@ Please harmonize and optimize this prompt for better AI image generation results
       // Add to history
       const newEntry = {
         id: Date.now(),
+        characterName,
         originalPositive: positivePrompt,
         originalNegative: negativePrompt,
         loraText,
@@ -218,6 +233,7 @@ Please harmonize and optimize this prompt for better AI image generation results
     setPositivePrompt('')
     setNegativePrompt('')
     setLoraText('')
+    setCharacterName('')
     setOptimizedPrompt('')
     setOptimizedNegative('')
     setChangesSummary('')
@@ -228,6 +244,7 @@ Please harmonize and optimize this prompt for better AI image generation results
     setPositivePrompt(entry.originalPositive)
     setNegativePrompt(entry.originalNegative)
     setLoraText(entry.loraText)
+    setCharacterName(entry.characterName || '')
     setOptimizedPrompt(entry.optimizedPrompt)
     setOptimizedNegative(entry.optimizedNegative)
     setChangesSummary(entry.changesSummary || '')
@@ -266,6 +283,8 @@ Please harmonize and optimize this prompt for better AI image generation results
                 setNegativePrompt={setNegativePrompt}
                 loraText={loraText}
                 setLoraText={setLoraText}
+                characterName={characterName}
+                setCharacterName={setCharacterName}
                 apiKey={apiKey}
                 setApiKey={setApiKey}
                 onHarmonize={harmonizePrompt}
@@ -277,14 +296,24 @@ Please harmonize and optimize this prompt for better AI image generation results
 
             {/* Output Section */}
             {(optimizedPrompt || optimizedNegative) && (
-              <div className="card p-6">
-                <PromptOutput
-                  optimizedPrompt={optimizedPrompt}
-                  optimizedNegative={optimizedNegative}
-                  changesSummary={changesSummary}
-                  onCopy={copyToClipboard}
-                />
-              </div>
+              <>
+                <div className="card p-6">
+                  <PromptOutput
+                    optimizedPrompt={optimizedPrompt}
+                    optimizedNegative={optimizedNegative}
+                    changesSummary={changesSummary}
+                    onCopy={copyToClipboard}
+                  />
+                </div>
+
+                {/* Diff Section */}
+                <div className="card p-6">
+                  <PromptDiff
+                    originalPrompt={originalPositivePrompt}
+                    optimizedPrompt={optimizedPrompt}
+                  />
+                </div>
+              </>
             )}
           </div>
 

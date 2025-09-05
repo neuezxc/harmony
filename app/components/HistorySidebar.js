@@ -41,6 +41,11 @@ export default function HistorySidebar({ history, onLoadEntry, isOpen, setIsOpen
                   <div className="text-xs text-secondary mb-1">
                     {formatDate(entry.timestamp)}
                   </div>
+                  {entry.characterName && (
+                    <div className="text-sm font-semibold text-accent mb-1">
+                      🎭 {entry.characterName}
+                    </div>
+                  )}
                   <div className="font-medium text-sm mb-1 hover:text-primary transition-colors">
                     {truncateText(entry.originalPositive)}
                   </div>

@@ -18,6 +18,17 @@ export default function PromptOutput({ optimizedPrompt, optimizedNegative, chang
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold text-gradient">Optimized Results</h2>
+      {changesSummary && (
+        <div className="p-4 rounded-lg bg-green-50 border border-green-200 dark:bg-green-900/20 dark:border-green-800">
+          <h3 className="font-medium text-green-700 dark:text-green-300 mb-2">
+            Changes Made:
+          </h3>
+          <p className="text-sm text-green-600 dark:text-green-400">
+            {changesSummary}
+          </p>
+        </div>
+      )}
+
 
       {/* Optimized Positive Prompt */}
       {optimizedPrompt && (
@@ -70,29 +81,8 @@ export default function PromptOutput({ optimizedPrompt, optimizedNegative, chang
       )}
 
       {/* Changes Summary */}
-      {changesSummary && (
-        <div className="p-4 rounded-lg bg-green-50 border border-green-200 dark:bg-green-900/20 dark:border-green-800">
-          <h3 className="font-medium text-green-700 dark:text-green-300 mb-2">
-            Changes Made:
-          </h3>
-          <p className="text-sm text-green-600 dark:text-green-400">
-            {changesSummary}
-          </p>
-        </div>
-      )}
-
       {/* Usage Tips */}
-      <div className="p-4 rounded-lg bg-blue-50 border border-blue-200 dark:bg-blue-900/20 dark:border-blue-800">
-        <h3 className="font-medium text-blue-700 dark:text-blue-300 mb-2">
-          Pro Tips:
-        </h3>
-        <ul className="text-sm space-y-1 text-blue-600 dark:text-blue-400">
-          <li>• Use the optimized prompts in your favorite AI image generator</li>
-          <li>• Copy individual prompts or combine them as needed</li>
-          <li>• Experiment with different weights in LoRA triggers</li>
-          <li>• Save your favorites to history for quick access</li>
-        </ul>
-      </div>
+      
     </div>
   )
 }
