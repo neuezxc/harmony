@@ -119,3 +119,4 @@ MIT License - Free to use and modify for personal and commercial projects.
 ---
 
 **Made with ❤️ for the AI art community**
+# harmony
