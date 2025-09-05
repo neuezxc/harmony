@@ -251,6 +251,12 @@ Please harmonize and optimize this prompt for better AI image generation results
     setOptimizedPrompt(entry.optimizedPrompt)
     setOptimizedNegative(entry.optimizedNegative)
     setChangesSummary(entry.changesSummary || '')
+    setOriginalPositivePrompt(entry.originalPositive)
+    setOriginalNegativePrompt(entry.originalNegative)
+  }
+
+  const deleteHistoryEntries = (entryIds) => {
+    setHistory(prev => prev.filter(entry => !entryIds.includes(entry.id)))
   }
 
   const copyToClipboard = async (text) => {
@@ -278,7 +284,7 @@ Please harmonize and optimize this prompt for better AI image generation results
   return (
     <div className={`min-h-screen bg-background ${darkMode ? 'dark' : ''}`}>
       {/* Top Navigation */}
-      <nav className="bg-surface border-b border-border">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-border">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -309,7 +315,7 @@ Please harmonize and optimize this prompt for better AI image generation results
       </nav>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8 pt-20">
         <div className="space-y-8">
           {/* Input Section */}
           <div className="bg-surface border border-border rounded-lg p-6">
@@ -498,6 +504,7 @@ Please harmonize and optimize this prompt for better AI image generation results
                   loadFromHistory(entry)
                   setShowHistory(false)
                 }}
+                onDeleteEntries={deleteHistoryEntries}
                 isOpen={true}
                 setIsOpen={() => {}}
               />
