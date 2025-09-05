@@ -23,6 +23,7 @@ export default function Home() {
   const [history, setHistory] = useState([])
   const [showHistory, setShowHistory] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
+  const [activeTab, setActiveTab] = useState('results')
   const [darkMode, setDarkMode] = useState(false)
   const [defaultModel, setDefaultModel] = useState('z-ai/glm-4.5-air:free')
 
@@ -207,6 +208,7 @@ Please harmonize and optimize this prompt for better AI image generation results
       setOptimizedPrompt(result.optimized_prompt)
       setOptimizedNegative(result.optimized_negative || '')
       setChangesSummary(result.changes_summary || '')
+      setActiveTab('results') // Switch to results tab when new optimization completes
 
       // Add to history
       const newEntry = {
@@ -259,86 +261,217 @@ Please harmonize and optimize this prompt for better AI image generation results
   }
 
   return (
-    <div className={`min-h-screen p-4 ${darkMode ? 'dark' : ''}`}>
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gradient mb-4">
-            Prompt Harmonizer
-          </h1>
-          <p className="text-lg text-secondary">
-            Optimize your AI prompts with LoRA magic
-          </p>
-        </header>
-
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Main Content */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Input Section */}
-            <div className="card p-6">
-              <PromptInput
-                positivePrompt={positivePrompt}
-                setPositivePrompt={setPositivePrompt}
-                negativePrompt={negativePrompt}
-                setNegativePrompt={setNegativePrompt}
-                loraText={loraText}
-                setLoraText={setLoraText}
-                characterName={characterName}
-                setCharacterName={setCharacterName}
-                apiKey={apiKey}
-                setApiKey={setApiKey}
-                onHarmonize={harmonizePrompt}
-                onClear={clearAll}
-                isLoading={isLoading}
-                error={error}
-              />
+    <div className={`min-h-screen bg-background ${darkMode ? 'dark' : ''}`}>
+      {/* Top Navigation */}
+      <nav className="bg-surface border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <h1 className="text-xl font-bold text-foreground">
+                Prompt Harmonizer
+              </h1>
+              <span className="text-secondary text-sm hidden sm:inline">
+                LoRA integration
+              </span>
             </div>
 
-            {/* Output Section */}
-            {(optimizedPrompt || optimizedNegative) && (
-              <>
-                <div className="card p-6">
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setShowHistory(true)}
+                className="px-3 py-2 bg-surface border border-border rounded-md hover:bg-surface-hover transition-colors duration-200 text-sm font-medium"
+              >
+                History
+              </button>
+              <button
+                onClick={() => setShowSettings(true)}
+                className="px-3 py-2 bg-surface border border-border rounded-md hover:bg-surface-hover transition-colors duration-200 text-sm font-medium"
+              >
+                Settings
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="space-y-8">
+          {/* Input Section */}
+          <div className="bg-surface border border-border rounded-lg p-6">
+            <PromptInput
+              positivePrompt={positivePrompt}
+              setPositivePrompt={setPositivePrompt}
+              negativePrompt={negativePrompt}
+              setNegativePrompt={setNegativePrompt}
+              loraText={loraText}
+              setLoraText={setLoraText}
+              characterName={characterName}
+              setCharacterName={setCharacterName}
+              apiKey={apiKey}
+              setApiKey={setApiKey}
+              onHarmonize={harmonizePrompt}
+              onClear={clearAll}
+              isLoading={isLoading}
+              error={error}
+            />
+          </div>
+
+          {/* Output Section with Tabs */}
+          {(optimizedPrompt || optimizedNegative) && (
+            <div className="bg-surface border border-border rounded-lg overflow-hidden">
+              {/* Tab Navigation */}
+              <div className="flex border-b border-border">
+                <button
+                  onClick={() => setActiveTab('results')}
+                  className={`flex-1 px-4 py-3 text-sm font-medium transition-colors duration-200 ${
+                    activeTab === 'results'
+                      ? 'text-primary border-b-2 border-primary bg-surface-hover'
+                      : 'text-secondary hover:text-foreground hover:bg-surface-hover'
+                  }`}
+                >
+                  Optimized Results
+                </button>
+                <button
+                  onClick={() => setActiveTab('changes')}
+                  className={`flex-1 px-4 py-3 text-sm font-medium transition-colors duration-200 ${
+                    activeTab === 'changes'
+                      ? 'text-primary border-b-2 border-primary bg-surface-hover'
+                      : 'text-secondary hover:text-foreground hover:bg-surface-hover'
+                  }`}
+                >
+                  Changes
+                </button>
+              </div>
+
+              {/* Tab Content */}
+              <div className="p-6">
+                {activeTab === 'results' && (
                   <PromptOutput
                     optimizedPrompt={optimizedPrompt}
                     optimizedNegative={optimizedNegative}
                     changesSummary={changesSummary}
                     onCopy={copyToClipboard}
                   />
-                </div>
-
-                {/* Diff Section */}
-                <div className="card p-6">
+                )}
+                {activeTab === 'changes' && (
                   <PromptDiff
                     originalPrompt={originalPositivePrompt}
                     optimizedPrompt={optimizedPrompt}
                   />
-                </div>
-              </>
-            )}
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Settings */}
-            <SettingsPanel
-              darkMode={darkMode}
-              setDarkMode={setDarkMode}
-              defaultModel={defaultModel}
-              setDefaultModel={setDefaultModel}
-              isOpen={showSettings}
-              setIsOpen={setShowSettings}
-            />
-
-            {/* History */}
-            <HistorySidebar
-              history={history}
-              onLoadEntry={loadFromHistory}
-              isOpen={showHistory}
-              setIsOpen={setShowHistory}
-            />
-          </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Settings Modal */}
+      {showSettings && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in"
+          onClick={() => setShowSettings(false)}
+        >
+          <div
+            className="bg-gradient-to-br from-surface to-surface-hover border border-border/50 rounded-2xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden animate-fade-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="relative p-6 border-b border-border/30 bg-gradient-to-r from-primary/5 to-accent/5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center shadow-lg">
+                    <span className="text-lg">⚙️</span>
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-foreground">Settings</h2>
+                    <p className="text-secondary text-sm">Customize your experience</p>
+                  </div>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setShowSettings(false)
+                  }}
+                  className="w-8 h-8 flex items-center justify-center text-secondary hover:text-foreground hover:bg-surface-hover/80 rounded-xl transition-all duration-200 hover:rotate-90"
+                >
+                  <span className="text-lg">✕</span>
+                </button>
+              </div>
+
+              {/* Decorative elements */}
+              <div className="absolute top-2 right-2 w-12 h-12 bg-primary/5 rounded-full blur-lg"></div>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 overflow-y-auto max-h-[calc(80vh-120px)] scrollbar-hide">
+              <SettingsPanel
+                darkMode={darkMode}
+                setDarkMode={setDarkMode}
+                defaultModel={defaultModel}
+                setDefaultModel={setDefaultModel}
+                isOpen={true}
+                setIsOpen={() => {}}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* History Modal */}
+      {showHistory && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+          onClick={() => setShowHistory(false)}
+        >
+          <div
+            className="bg-gradient-to-br from-surface to-surface-hover border border-border/50 rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden animate-fade-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="relative p-8 border-b border-border/30 bg-gradient-to-r from-primary/5 to-accent/5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center shadow-lg">
+                    <span className="text-2xl">📚</span>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-foreground bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
+                      Prompt History
+                    </h2>
+                    <p className="text-secondary text-sm mt-1">
+                      {history.length} harmonized prompt{history.length !== 1 ? 's' : ''}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowHistory(false)}
+                  className="absolute top-8 right-8 z-20 w-12 h-12 bg-surface/80 hover:bg-surface border border-border/50 rounded-full flex items-center justify-center text-secondary hover:text-foreground transition-all duration-200 hover:scale-110 shadow-lg"
+                  style={{ margin: 0 }}
+                >
+                  <span className="text-xl font-bold">×</span>
+                </button>
+              </div>
+
+              {/* Decorative elements */}
+              <div className="absolute top-8 right-8 w-16 h-16 bg-primary/5 rounded-full blur-xl"></div>
+              <div className="absolute bottom-8 left-8 w-12 h-12 bg-accent/5 rounded-full blur-xl"></div>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-8 overflow-y-auto max-h-[calc(90vh-160px)] scrollbar-hide">
+              <HistorySidebar
+                history={history}
+                onLoadEntry={(entry) => {
+                  loadFromHistory(entry)
+                  setShowHistory(false)
+                }}
+                isOpen={true}
+                setIsOpen={() => {}}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

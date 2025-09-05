@@ -83,17 +83,21 @@ body {
   border: 1px solid var(--border-hover);
 }
 
-.text-gradient {
-  color: var(--primary);
-}
+/* Removed gradient text styling for minimalist design */
 
 .animate-fade-in {
   animation: fadeIn 0.3s ease-in-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .scrollbar-hide {

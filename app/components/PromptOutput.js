@@ -17,9 +17,9 @@ export default function PromptOutput({ optimizedPrompt, optimizedNegative, chang
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-semibold text-gradient">Optimized Results</h2>
+      <h2 className="text-2xl font-semibold text-foreground">Optimized Results</h2>
       {changesSummary && (
-        <div className="p-4 rounded-lg bg-green-50 border border-green-200 dark:bg-green-900/20 dark:border-green-800">
+        <div className="px-3 py-2 bg-green-50 border border-green-200 rounded-md dark:bg-green-900/20 dark:border-green-800">
           <h3 className="font-medium text-green-700 dark:text-green-300 mb-2">
             Changes Made:
           </h3>
@@ -45,7 +45,7 @@ export default function PromptOutput({ optimizedPrompt, optimizedNegative, chang
             </button>
           </div>
           <div className="relative">
-            <pre className="p-4 rounded-lg bg-surface border border-border font-mono text-sm overflow-x-auto whitespace-pre-wrap transition-colors duration-200">
+            <pre className="px-3 py-2 bg-surface border border-border rounded-md font-mono text-sm overflow-x-auto whitespace-pre-wrap transition-colors duration-200">
               {optimizedPrompt}
             </pre>
             <div className="absolute top-2 right-2 opacity-50 text-xs text-secondary">
@@ -70,7 +70,7 @@ export default function PromptOutput({ optimizedPrompt, optimizedNegative, chang
             </button>
           </div>
           <div className="relative">
-            <pre className="p-4 rounded-lg bg-surface border border-border font-mono text-sm overflow-x-auto whitespace-pre-wrap transition-colors duration-200">
+            <pre className="px-3 py-2 bg-surface border border-border rounded-md font-mono text-sm overflow-x-auto whitespace-pre-wrap transition-colors duration-200">
               {optimizedNegative}
             </pre>
             <div className="absolute top-2 right-2 opacity-50 text-xs text-secondary">

@@ -18,9 +18,9 @@ export default function SettingsPanel({
     <div className="card p-6">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between text-left transition-colors duration-200 hover:bg-surface-hover p-2 rounded-lg cursor-pointer"
+        className="w-full flex items-center justify-between text-left transition-colors duration-200 hover:bg-surface-hover px-3 py-2 rounded-md cursor-pointer"
       >
-        <h3 className="text-lg font-semibold text-gradient">
+        <h3 className="text-lg font-semibold text-foreground">
           Settings
         </h3>
         <span className={`transform transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
@@ -31,8 +31,8 @@ export default function SettingsPanel({
       {isOpen && (
         <div className="mt-4 space-y-4">
           {/* Dark Mode Toggle */}
-          <div className="flex items-center justify-between p-3 rounded-lg hover:bg-surface-hover transition-colors">
-            <label className="text-sm font-medium">
+          <div className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-surface-hover transition-colors">
+            <label className="text-sm font-medium text-foreground">
               Dark Mode
             </label>
             <button
@@ -50,14 +50,14 @@ export default function SettingsPanel({
           </div>
 
           {/* Model Selection */}
-          <div className="p-3 rounded-lg hover:bg-surface-hover transition-colors">
-            <label className="block text-sm font-medium mb-2">
+          <div className="px-3 py-2 rounded-md hover:bg-surface-hover transition-colors">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Default Model
             </label>
             <select
               value={defaultModel}
               onChange={(e) => setDefaultModel(e.target.value)}
-              className="w-full p-3 rounded-lg bg-surface border border-border focus:border-primary focus:outline-none transition-colors duration-200"
+              className="w-full px-3 py-2 bg-surface border border-border rounded-md focus:border-primary focus:outline-none transition-colors duration-200"
             >
               {models.map((model) => (
                 <option key={model.id} value={model.id} className="bg-surface">
@@ -68,7 +68,7 @@ export default function SettingsPanel({
           </div>
 
           {/* Info */}
-          <div className="p-3 rounded-lg bg-blue-50 border border-blue-200 dark:bg-blue-900/20 dark:border-blue-800">
+          <div className="px-3 py-2 bg-blue-50 border border-blue-200 rounded-md dark:bg-blue-900/20 dark:border-blue-800">
             <div className="text-xs text-blue-700 dark:text-blue-300">
               <strong>Models:</strong> Different models may give slightly different optimization results. Experiment to find your favorite!
             </div>
